@@ -1,7 +1,7 @@
 **Comcast Data Cap Usage Collector For InfluxDB and Grafana**
 ------------------------------
 
-![Screenshot]()
+![Screenshot](images/comcast_grafana_example.png)
 
 This tool allows you to run periodic comcast data usage checks and save the results to Influxdb
 
@@ -23,7 +23,6 @@ This tool allows you to run periodic comcast data usage checks and save the resu
 #### COMCAST
 |Key            |Description                                                                                                         |
 |:--------------|:-------------------------------------------------------------------------------------------------------------------|
-|Server         |Server ID of speedtest.net server.  Leave blank for auto                                                            |
 |Username       |Comcast username (don't include the @comcast.com)                                                                   |
 |Password       |Password for above user  
 
@@ -56,12 +55,20 @@ cd comcastUsage-for-influxdb
 
 3. Modify the config file with your influxdb settings.
 ```bash
-nano config.ini
+vim config.ini
 ```
 Modify the 'Address =' line include the ip or hostname of your influxdb instance.
 Example:
 ```bash
 Address = 10.13.14.200
+```
+
+Modify the 'Username' and 'Password' in the _COMCAST_ section with your comcast login credentials.  *NOTE* you only need the username portion of your comcast login, not the @comcast.com part
+Example:
+```
+[COMCAST]
+Username = annoying_customer
+Password = supersecretpassword
 ```
 
 4. Run the container, pointing to the directory with the config file. This should now pull the image from Docker hub.
