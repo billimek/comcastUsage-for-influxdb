@@ -6,4 +6,4 @@ WORKDIR /src
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "/src/InfluxdbComcast.py"]
+CMD ["python", "-u", "/src/InfluxdbComcast.py"]
