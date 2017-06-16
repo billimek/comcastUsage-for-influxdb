@@ -27,6 +27,19 @@ This tool allows you to run periodic comcast data usage checks and save the resu
 |Password       |Password for above user  
 
 
+## InfluxDB metrics
+```
+'measurement': 'comcast_data_usage',
+'fields': {
+		'used': self.used,
+		'total': self.total,
+		'unit': self.unit
+}
+```
+
+## Grafana singlestat example
+See this [example json](example.json) for a singlestat panel as shown in the screenshot above
+
 **Usage**
 
 Before the first use run pip3 install -r requirements.txt
