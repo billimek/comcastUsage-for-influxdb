@@ -5,6 +5,8 @@
 
 This tool allows you to run periodic comcast data usage checks and save the results to Influxdb
 
+This code is adopted from the work done by [barrycarey](https://github.com/barrycarey) in the [similar thing for capturing speedtest data](https://github.com/barrycarey/Speedtest-for-InfluxDB-and-Grafana) as well as [WTFox's](https://github.com/WTFox) [comcastUsage python example](https://github.com/WTFox/comcastUsage)
+
 ## Configuration within config.ini
 
 #### GENERAL
@@ -31,16 +33,16 @@ This tool allows you to run periodic comcast data usage checks and save the resu
 ```
 'measurement': 'comcast_data_usage',
 'fields': {
-		'used': self.used,
-		'total': self.total,
-		'unit': self.unit
+		'used',
+		'total',
+		'unit'
 }
 ```
 
 ## Grafana singlestat example
 See this [example json](example.json) for a singlestat panel as shown in the screenshot above
 
-**Usage**
+## Usage
 
 Before the first use run pip3 install -r requirements.txt
 
@@ -49,7 +51,7 @@ Enter your desired information in config.ini and run InfluxdbComcast.py
 Optionally, you can specify the --config argument to load the config file from a different location.  
 
 
-***Requirements***
+#### Requirements
 
 Python 3+
 
