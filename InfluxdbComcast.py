@@ -147,12 +147,12 @@ class InfluxdbComcastUsage():
         #            </div>
         #        </div>
 
-        used = None
+        used = 0
         m = re.search(r'<span data-used="(\d+)"', html)
         if m:
             used = int(m.group(1))
 
-        total = None
+        total = 0
         m = re.search(r'<div class="cui-usage-bar" data-plan="(\d+)">', html)
         if m:
             total = int(m.group(1))
