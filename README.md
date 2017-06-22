@@ -5,7 +5,7 @@
 
 This tool allows you to run periodic comcast data usage checks and save the results to Influxdb
 
-This code is adopted from the work done by [barrycarey](https://github.com/barrycarey) in the [similar thing for capturing speedtest data](https://github.com/barrycarey/Speedtest-for-InfluxDB-and-Grafana) as well as [WTFox's](https://github.com/WTFox) [comcastUsage python example](https://github.com/WTFox/comcastUsage)
+This code is adopted from the work done by [barrycarey](https://github.com/barrycarey) in the [similar thing for capturing speedtest data](https://github.com/barrycarey/Speedtest-for-InfluxDB-and-Grafana) as well as [jantman's](https://github.com/jantman) [xfinity-usage python example](https://github.com/jantman/xfinity-usage)
 
 ## Configuration within config.ini
 

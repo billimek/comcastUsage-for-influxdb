@@ -1,4 +1,4 @@
-FROM python:3.3-slim
+FROM a1fred/docker-python-phantomjs
 MAINTAINER Jeff Billimek <jeff@billimek.com>
 
 ADD . /src
