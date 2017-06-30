@@ -9,7 +9,7 @@ other scripts/tools.
 Requirements
 ------------
 
-- phantomjs
+- phantomjs >= 2.0 (tested with 2.1.1)
 - selenium (``pip install selenium``)
 
 Usage
@@ -46,6 +46,12 @@ The latest version of this script can be found at:
 
 CHANGELOG
 ---------
+
+2017-06-30 Jeff Billimek <jeff@billimek.com>:
+  - making more friendly for invocation as a class
+
+2017-06-22 Jason Antman <jason@jasonantman.com>:
+  - clarify PhantomJS requirement of 2.x (2.1.1 recommended)
 
 2017-06-22 Jason Antman <jason@jasonantman.com>:
   - remove superfluous print statement introduced in last commit
