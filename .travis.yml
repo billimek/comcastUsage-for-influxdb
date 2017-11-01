@@ -1,6 +1,12 @@
-  language: python
-  python:
-    - 3.6
-    - nightly
-  script:
-    - pytest
+sudo: true
+dist: trusty
+
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - docker build -t comcastusage-for-influxdb .
+      - docker images
+      - docker tag comcastusage-for-influxdb $DOCKER_USERNAME/comcastusage-for-influxdb
+      - docker push $DOCKER_USERNAME/comcastusage-for-influxdb
