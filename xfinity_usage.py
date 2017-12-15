@@ -50,6 +50,13 @@ The latest version of this script can be found at:
 CHANGELOG (see VERSION constant for version number)
 ---------------------------------------------------
 
+1.2.0 2017-12-04 Jason Antman <jason@jasonantman.com>
+  - Update for redesign that removed ``ng-if="device.usage"`` element.
+
+1.1.0 2017-11-30 Jason Antman <jason@jasonantman.com>
+  - Merge PR #6 from ericzinnikas to handle reporting used amount even if it
+    is over data cap.
+
 1.0.0 2017-11-06 Jason Antman <jason@jasonantman.com>
   - Added VERSION constant and began tagging git repo for releases
   - Updated User-Agent string to latest chrome, with "xfinity-usage/VERSION"
@@ -108,7 +115,7 @@ except ImportError:
     sys.stderr.write("Error importing selenium - 'pip install selenium'\n")
     raise SystemExit(1)
 
-VERSION = '1.0.0'
+VERSION = '1.2.0'
 
 FORMAT = "[%(asctime)s %(levelname)s] %(message)s"
 logging.basicConfig(level=logging.WARNING, format=FORMAT)
@@ -277,37 +284,50 @@ class XfinityUsage(object):
         self.do_screenshot()
         try:
             meter = self.browser.find_element_by_xpath(
-                '//div[@class="usage-info__monthlyInfo"]'
+                '//*'
+                '[@ng-bind-html="usage.details.userMessage.monthlyUsageState"]'
             )
-            logger.debug('Found monthly usage div')
+            logger.debug('Found monthly usage divs')
         except Exception:
             logger.critical('Unable to find monthly usage div on page',
                             exc_info=True)
             self.error_screenshot()
             raise RuntimeError('Unable to find monthly usage div.')
-        t = meter.find_element_by_xpath(
-            '//span'
-            '[@ng-bind-html="usage.details.userMessage.monthlyUsageState"]'
-        )
-        logger.debug('Usage meter text: %s', t.text)
+        logger.debug('Usage meter text: %s', meter.text)
+        try:
+            used_xpath = '//div[@usage-data="usage.details.usageData"]' \
+                         '//tr[last()]/td[1]'
+            self.wait_by(By.XPATH, used_xpath)
+            used_td = self.browser.find_element_by_xpath(used_xpath)
+            logger.debug('Found current Total Monthly Usage table cell')
+            used_value = used_td.get_attribute('innerHTML')
+        except Exception:
+            logger.critical('Unable to find current Total Monthly Usage '
+                            'table cell', exc_info=True)
+            self.error_screenshot()
+            raise RuntimeError('Unable to find current Total Monthly Usage '
+                               'table cell.')
+        logger.debug('Montly Usage TD: %s', used_value)
         m = re.search(
             r'(\d+)([A-Za-z]+) remaining of (\d+)([A-Za-z]+) monthly plan',
-            t.text
+            meter.text
         )
         if m is None:
-            raise RuntimeError('Cannot parse string: %s' % t.text)
-        remain = float(m.group(1))
-        remain_unit = m.group(2)
+            raise RuntimeError('Cannot parse string: %s' % meter.text)
+        d = re.search(r'(\d+)\s*([A-Za-z]+)', used_value)
+        if d is None:
+            raise RuntimeError('Cannot parse string: %s' % used_value)
+        used = float(d.group(1))
+        used_unit = d.group(2)
         total = float(m.group(3))
         total_unit = m.group(4)
-        if remain_unit != total_unit:
+        if used_unit != total_unit:
             raise RuntimeError(
                 'Data remaining unit (%s) not the same as total unit (%s)' % (
-                    remain_unit, total_unit
+                    used_unit, total_unit
                 )
             )
-        used = total - remain
-        return {'units': remain_unit, 'used': used, 'total': total}
+        return {'units': used_unit, 'used': used, 'total': total}
 
     def do_screenshot(self):
         """take a debug screenshot"""
