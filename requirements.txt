@@ -1,2 +1,3 @@
 influxdb
 selenium
+xfinity-usage

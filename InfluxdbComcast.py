@@ -7,7 +7,7 @@ from influxdb import InfluxDBClient
 from influxdb.exceptions import InfluxDBClientError, InfluxDBServerError
 import time
 import logging
-from xfinity_usage import XfinityUsage
+from xfinity_usage.xfinity_usage import XfinityUsage
 
 class configManager():
 
