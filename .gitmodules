@@ -1,0 +1,3 @@
+[submodule "xfinity-usage"]
+	path = xfinity-usage
+	url = https://github.com/TomRoush/xfinity-usage
